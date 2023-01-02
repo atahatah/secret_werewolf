@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>demo start</title>
+</head>
+<body>
+    <h2>Hello, World</h2>
+    <form th:action="@{/start/test}" method="post">
+        <label>
+            メッセージ：
+            <input type="text" name="message">
+        </label>
+        <button>送信</button>
+    </form>
+</body>
+</html>
