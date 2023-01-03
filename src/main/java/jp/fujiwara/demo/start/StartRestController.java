@@ -2,7 +2,6 @@ package jp.fujiwara.demo.start;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,17 +10,16 @@ import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.global.parent.ParentDataService;
 import jp.fujiwara.demo.utils.ResponseStatus;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 初期化時の親と子のデータのやり取りを定義
  */
+@RequiredArgsConstructor
 @RestController
 public class StartRestController {
-    @Autowired
-    ParentDataService parentDataService;
-
-    @Autowired
-    GlobalStateService globalStateService;
+    private final ParentDataService parentDataService;
+    private final GlobalStateService globalStateService;
 
     /**
      * 子から親に対して登録するために呼ぶ

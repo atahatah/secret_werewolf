@@ -3,20 +3,21 @@ package jp.fujiwara.demo.utils;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * IP Addressを取得する。
  */
+@RequiredArgsConstructor
 @Component
 public class GetIpAddress {
     private String ipAddress;
 
     public final String unknownHostName = "Unknown Host";
 
-    @Autowired
-    GetPortNum getPortNum;
+    private final GetPortNum getPortNum;
 
     /**
      * port番号を含まないIP Addressを取得

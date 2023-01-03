@@ -3,24 +3,24 @@ package jp.fujiwara.demo.global.parent;
 import java.util.Iterator;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.start.RowChildDataModel;
 import jp.fujiwara.demo.start.StartModel;
 import jp.fujiwara.demo.utils.GetIpAddress;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 親が保持すべき情報について管理する。
  * 特にParentDataModel classを管理する。
  */
+@RequiredArgsConstructor
 @Service
 public class ParentDataService {
     final ParentDataModel model = new ParentDataModel();
 
-    @Autowired
-    GetIpAddress getIpAddress;
+    private final GetIpAddress getIpAddress;
 
     public void init(final StartModel startModel) {
         // 最初の参加者として親自身を追加する。

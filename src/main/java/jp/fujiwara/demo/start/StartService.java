@@ -2,33 +2,25 @@ package jp.fujiwara.demo.start;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.ParticipantModel;
-import jp.fujiwara.demo.global.child.ChildDataService;
 import jp.fujiwara.demo.global.parent.ParentDataService;
 import jp.fujiwara.demo.utils.GetIpAddress;
 import jp.fujiwara.demo.utils.ResponseStatus;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 初期化時の主な処理の塊を定義
  */
+@RequiredArgsConstructor
 @Service
 public class StartService {
-    @Autowired
-    ChildDataService childDataService;
-
-    @Autowired
-    ParentDataService parentDataService;
-
-    @Autowired
-    GetIpAddress getIpAddress;
-
-    @Autowired
-    GlobalStateService globalStateService;
+    private final ParentDataService parentDataService;
+    private final GetIpAddress getIpAddress;
+    private final GlobalStateService globalStateService;
 
     /**
      * 一番最初に親に子の情報を伝え、ユーザー登録する

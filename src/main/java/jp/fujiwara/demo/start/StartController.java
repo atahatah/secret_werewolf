@@ -1,6 +1,5 @@
 package jp.fujiwara.demo.start;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +11,7 @@ import jp.fujiwara.demo.global.child.ChildDataService;
 import jp.fujiwara.demo.global.parent.ParentDataService;
 import jp.fujiwara.demo.utils.GetIpAddress;
 import jp.fujiwara.demo.utils.GetPortNum;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 初期化をするためのコントローラー
@@ -19,28 +19,15 @@ import jp.fujiwara.demo.utils.GetPortNum;
  * 2. 情報を入力後、/start/configにPOST
  * 3. 親が/start/startにポストすることでゲーム開始
  */
+@RequiredArgsConstructor
 @Controller
 public class StartController {
-    /**
-     * ポート番号を取得するためのクラス
-     */
-    @Autowired
-    private GetPortNum getPortNum;
-
-    @Autowired
-    private ChildDataService childDataService;
-
-    @Autowired
-    private ParentDataService parentDataService;
-
-    @Autowired
-    private StartService startService;
-
-    @Autowired
-    private GlobalStateService globalStateService;
-
-    @Autowired
-    private GetIpAddress getIpAddress;
+    private final GetPortNum getPortNum;
+    private final ChildDataService childDataService;
+    private final ParentDataService parentDataService;
+    private final StartService startService;
+    private final GlobalStateService globalStateService;
+    private final GetIpAddress getIpAddress;
 
     /**
      * 一番最初の情報を入力するページ
