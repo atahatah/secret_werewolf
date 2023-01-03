@@ -1,1 +1,30 @@
-親の初期設定入力終了後、スタートするまでの画面
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>demo start</title>
+    <script th:src="@{/js/reload.js}"></script>
+</head>
+<body>
+    <h2>親の初期設定入力終了後、スタートするまでの画面</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>name</th>
+                <th>IP Address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${!#lists.isEmpty(participants)}" th:each="participant : ${participants}" th:object="${participant}">
+                <td th:text="*{number}"></td>
+                <td th:text="*{playerName}"></td>
+                <td th:text="*{ipAddress}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <form th:action="@{/start/start}" method="get">
+        <button>開始</button>
+    </form>
+</body>
+</html>

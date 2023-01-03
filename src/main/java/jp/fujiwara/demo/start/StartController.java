@@ -71,7 +71,7 @@ public class StartController {
         globalStateService.init(startModel);
         if (startModel.getIsParent()) {
             parentDataService.init(startModel);
-            return "parent_start_idle";
+            return "redirect:/start/waiting";
         } else {
             childDataService.init(startModel);
             startService.sendToParent(startModel);
@@ -80,12 +80,24 @@ public class StartController {
     }
 
     /**
-     * ゲームを開始するために親がポストする。
+     * 親がスタートするまで待つ画面
+     * 
+     * @param model 参加者の一覧を渡す
+     * @return 親がスタートするまで待つ画面
+     */
+    @GetMapping("/start/waiting")
+    public String waiting(Model model) {
+        model.addAttribute("participants", parentDataService.getParticipants());
+        return "parent_start_idle";
+    }
+
+    /**
+     * ゲームを開始するために親がGETする。
      * これが呼ばれることでゲームが開始する。
      *
      * @return 親の開始後の画面を返す
      */
-    @PostMapping("/start/start")
+    @GetMapping("/start/start")
     public String start() {
         startService.startGame();
         return "redirect:/management/parent";
