@@ -10,6 +10,6 @@ import jp.fujiwara.demo.start.StartModel;
 public class TestController {
     @PostMapping("/start/test")
     public String startTest(@ModelAttribute StartModel start) {
-        return "start:" + start.getPlayerName() + start.getIpAddress() + start.getIsParent();
+        return "start:" + start.getPlayerName() + start.getParentIpAddress() + start.getIsParent();
     }
 }

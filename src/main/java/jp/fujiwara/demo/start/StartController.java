@@ -1,16 +1,16 @@
 package jp.fujiwara.demo.start;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jp.fujiwara.demo.global.GlobalStateService;
+import jp.fujiwara.demo.global.child.ChildDataService;
+import jp.fujiwara.demo.global.parent.ParentDataService;
+import jp.fujiwara.demo.utils.GetIpAddress;
 import jp.fujiwara.demo.utils.GetPortNum;
 
 /**
@@ -27,6 +27,21 @@ public class StartController {
     @Autowired
     private GetPortNum getPortNum;
 
+    @Autowired
+    private ChildDataService childDataService;
+
+    @Autowired
+    private ParentDataService parentDataService;
+
+    @Autowired
+    private StartService startService;
+
+    @Autowired
+    private GlobalStateService globalStateService;
+
+    @Autowired
+    private GetIpAddress getIpAddress;
+
     /**
      * 一番最初の情報を入力するページ
      * 
@@ -36,13 +51,7 @@ public class StartController {
     @GetMapping("/start/page")
     public String page(@ModelAttribute("model") StartModel startModel, Model model) {
         // ip addressの取得
-        String ip;
-        try {
-            InetAddress addr = InetAddress.getLocalHost();
-            ip = addr.getHostAddress();
-        } catch (UnknownHostException e) {
-            ip = "Unknown Host";
-        }
+        String ip = getIpAddress.getIpAddress();
         model.addAttribute("ip", ip);
         // portの取得
         String port = getPortNum.getPortNum();
@@ -59,9 +68,13 @@ public class StartController {
      */
     @PostMapping("/start/config")
     public String config(@ModelAttribute StartModel startModel) {
+        globalStateService.init(startModel);
         if (startModel.getIsParent()) {
+            parentDataService.init(startModel);
             return "parent_start_idle";
         } else {
+            childDataService.init(startModel);
+            startService.sendToParent(startModel);
             return "redirect:/management/child";
         }
     }
@@ -74,11 +87,7 @@ public class StartController {
      */
     @PostMapping("/start/start")
     public String start() {
+        startService.startGame();
         return "redirect:/management/parent";
-    }
-
-    @Bean
-    public InitialData getInitialData() {
-        return new InitialData();
     }
 }

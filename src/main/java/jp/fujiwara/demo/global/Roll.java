@@ -4,22 +4,22 @@ public enum Roll {
     /**
      * 村人
      */
-    villager,
+    VILLAGER,
     /**
      * 占い師
      */
-    fortuneTaller,
+    FORTUNE_TALLER,
     /**
      * 霊媒師
      */
-    medium,
+    MEDIUM,
     /**
      * 狩人
      */
-    hunter,
+    HUNTER,
     /**
      * 人狼
      */
-    werewolf,
+    WEREWOLF,
     ;
 }

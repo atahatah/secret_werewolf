@@ -1,17 +1,12 @@
 package jp.fujiwara.demo.global;
 
-import org.springframework.context.annotation.Scope;
-
 import lombok.Data;
 
 /**
  * 役職などプレイヤーの情報
- * 
- * アプリ全体で共有される
  */
 @Data
-@Scope("Singleton")
-public class PlayerState {
+class PlayerStateModel {
     /**
      * 役職
      */
@@ -20,4 +15,8 @@ public class PlayerState {
      * 殺されたか
      */
     private Boolean hasKilled;
+    /**
+     * プレイヤー名
+     */
+    private String playerName;
 }

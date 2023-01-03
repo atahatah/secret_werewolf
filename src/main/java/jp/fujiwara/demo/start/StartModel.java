@@ -9,5 +9,8 @@ import lombok.Data;
 public class StartModel {
     private String playerName;
     private Boolean isParent;
-    private String ipAddress;
+    /**
+     * port番号まで含める
+     */
+    private String parentIpAddress;
 }
