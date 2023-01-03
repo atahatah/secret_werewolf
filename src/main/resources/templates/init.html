@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>demo start</title>
+</head>
+<body>
+    <h2>Start Settings</h2>
+    <p>IP Address: [[${ip}]]</p>
+    <p>port: [[${port}]]</p>
+    <p>[[${ip}]]:[[${port}]]</p>
+    <form th:action="@{/start/config}" th:object="${model}" method="post">
+        <label for="email">
+            <input type="checkbox" th:field="*{isParent}">
+            親か
+        </label>
+        
+        <br/>
+
+        <label for="name">player name:</label>
+        <input type="text" th:field="*{playerName}">
+        
+        <br/>
+
+        <label for="age">親のIPアドレス:</label>
+        <input type="text" th:field="*{ipAddress}">
+        
+        <br/>
+
+        <button>開始</button>
+    </form>
+</body>
+</html>
