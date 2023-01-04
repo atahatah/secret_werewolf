@@ -4,7 +4,7 @@ package jp.fujiwara.demo.global;
  * ゲームの状態を管理する。
  * 全てのユーザはこの情報を共有できている必要がある。
  */
-public enum GameStatus {
+public enum GameState {
     /**
      * 最初の初期設定
      */

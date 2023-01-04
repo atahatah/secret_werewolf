@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>demo start</title>
+</head>
+<body>
+    <h2>夜:人狼</h2>
+    <form th:action="@{/night/werewolf}">
+        <select id="selectedNumber" name="selectedNumber">
+            <option th:each="participant : ${participants}" th:value="${participant.number}" th:selected="${participant.number == number}" th:inline="text">
+                [[${participant.playerName]]
+            </option>
+        </select>
+    </form>
+</body>
+</html>

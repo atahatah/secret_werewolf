@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.child.ChildDataService;
 import jp.fujiwara.demo.global.parent.ParentDataService;
+import jp.fujiwara.demo.roll_definition.RollDefinitionService;
 import jp.fujiwara.demo.utils.GetIpAddress;
 import jp.fujiwara.demo.utils.GetPortNum;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class StartController {
     private final StartService startService;
     private final GlobalStateService globalStateService;
     private final GetIpAddress getIpAddress;
+    private final RollDefinitionService rollDefinitionService;
 
     /**
      * 一番最初の情報を入力するページ
@@ -62,7 +64,7 @@ public class StartController {
         } else {
             childDataService.init(startModel);
             startService.sendToParent(startModel);
-            return "redirect:/management/child";
+            return "redirect:/management";
         }
     }
 
@@ -87,6 +89,7 @@ public class StartController {
     @GetMapping("/start/start")
     public String start() {
         startService.startGame();
-        return "redirect:/management/parent";
+        rollDefinitionService.initRollDefinition();
+        return "redirect:/management";
     }
 }

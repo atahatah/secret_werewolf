@@ -19,4 +19,9 @@ class PlayerStateModel {
      * プレイヤー名
      */
     private String playerName;
+    /**
+     * ID
+     * 親が0で、連番
+     */
+    private int number;
 }

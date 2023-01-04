@@ -12,5 +12,5 @@ import lombok.Data;
 class SettingsModel {
     private Boolean isParent;
     private List<ParticipantModel> participants = new ArrayList<>();
-    private GameStatus gameStatus = GameStatus.START;
+    private GameState gameState = GameState.START;
 }

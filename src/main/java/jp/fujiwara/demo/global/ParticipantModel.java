@@ -20,10 +20,18 @@ public class ParticipantModel {
         ipAddress = childModel.getIp();
     }
 
+    /**
+     * プレイヤーのID。
+     * 0からの連番で、0は親であることを前提とする。
+     */
     private int number;
     private String playerName;
     /**
      * port番号まで含める
      */
     private String ipAddress;
+
+    public boolean getIsParent() {
+        return number == 0;
+    }
 }
