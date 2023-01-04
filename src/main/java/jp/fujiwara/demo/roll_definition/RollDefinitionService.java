@@ -3,13 +3,12 @@ package jp.fujiwara.demo.roll_definition;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import jp.fujiwara.demo.global.GameState;
 import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.global.Roll;
 import jp.fujiwara.demo.math.RandomNum;
 import jp.fujiwara.demo.night.NightService;
-import jp.fujiwara.demo.parent_child.ParentService;
+import jp.fujiwara.demo.utils.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -27,7 +26,7 @@ public class RollDefinitionService {
     private final GlobalStateService globalStateService;
     private final RandomNum randomNum;
     private final NightService nightService;
-    private final ParentService parentService;
+    private final RestTemplate restTemplate;
 
     /**
      * 既にロールが決定しているか
@@ -85,14 +84,12 @@ public class RollDefinitionService {
             // 次の参加者（親）に大きい方の数字を送る
             final String url = "http://" + nextIp + "/roll/check_num";
             final RollNumber rollNumber = new RollNumber(theBiggerNumber);
-            final RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForObject(url, rollNumber, RollNumber.class);
+            restTemplate.postForObject(url, rollNumber, ResponseStatus.class);
         } else {
             // 次の参加者（子）に大きい方の数字を送る
             final String url = "http://" + nextIp + "/roll/comp_num";
             final RollNumber rollNumber = new RollNumber(theBiggerNumber);
-            final RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForObject(url, rollNumber, RollNumber.class);
+            restTemplate.postForObject(url, rollNumber, ResponseStatus.class);
         }
     }
 
@@ -167,7 +164,6 @@ public class RollDefinitionService {
      * 親が実行する。
      */
     public void rollsHadDefined() {
-        parentService.notifyStateToChildren(GameState.NIGHT);
         nightService.init();
     }
 

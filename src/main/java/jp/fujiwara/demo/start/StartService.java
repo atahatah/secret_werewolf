@@ -52,7 +52,6 @@ public class StartService {
         // 全ての子に全参加者の情報を送信
         for (final ParticipantModel child : parentDataService.children()) {
             final String url = "http://" + child.getIpAddress() + "/child/notice_participants_info";
-            final RestTemplate restTemplate = new RestTemplate();
             restTemplate.postForObject(url, participantList, ResponseStatus.class);
         }
     }

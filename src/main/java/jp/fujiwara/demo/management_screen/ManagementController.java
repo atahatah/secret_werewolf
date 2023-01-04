@@ -23,6 +23,14 @@ public class ManagementController {
                     default:
                         return "night/villager";
                 }
+            case NOON:
+                if (globalStateService.getIsParent()) {
+                    return "noon/parent_management";
+                } else {
+                    return "noon/child_management";
+                }
+            case EVENING:
+                return "evening/vote";
             default:
                 if (globalStateService.getIsParent()) {
                     return "parent_management";

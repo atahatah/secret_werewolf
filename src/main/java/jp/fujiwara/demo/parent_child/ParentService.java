@@ -7,6 +7,7 @@ import jp.fujiwara.demo.global.GameState;
 import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.global.parent.ParentDataService;
+import jp.fujiwara.demo.utils.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class ParentService {
     private final ParentDataService parentDataService;
     private final GlobalStateService globalStateService;
+    private final RestTemplate restTemplate;
 
     /**
      * 全ての子に現在のゲームの状態を通知する。
@@ -28,8 +30,7 @@ public class ParentService {
         globalStateService.set(state);
         for (final ParticipantModel child : parentDataService.children()) {
             final String url = "http://" + child.getIpAddress() + "/child/notice_participants_info";
-            final RestTemplate restTemplate = new RestTemplate();
-            restTemplate.postForObject(url, state, GameState.class);
+            restTemplate.postForObject(url, state, ResponseStatus.class);
         }
     }
 }
