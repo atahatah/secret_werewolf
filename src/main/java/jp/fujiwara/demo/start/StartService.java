@@ -21,6 +21,7 @@ public class StartService {
     private final ParentDataService parentDataService;
     private final GetIpAddress getIpAddress;
     private final GlobalStateService globalStateService;
+    private final RestTemplate restTemplate;
 
     /**
      * 一番最初に親に子の情報を伝え、ユーザー登録する
@@ -32,8 +33,12 @@ public class StartService {
         final RowChildDataModel childModel = new RowChildDataModel(startModel.getPlayerName(),
                 getIpAddress.getIpAddressWithPort());
 
-        final RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForObject(url, childModel, ResponseStatus.class);
+        System.out.println("start");
+        final ResponseStatus status = restTemplate.postForObject(url, childModel, ResponseStatus.class);
+        if (status != null) {
+            System.out.println(status.getStatus());
+        }
+        System.out.println("end");
     }
 
     /**

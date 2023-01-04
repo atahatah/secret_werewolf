@@ -1,19 +1,17 @@
 package jp.fujiwara.demo.global;
 
 import jp.fujiwara.demo.start.RowChildDataModel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 参加者の情報を管理する。
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class ParticipantModel {
-    public ParticipantModel(int number, String playerName, String ipAddress) {
-        this.number = number;
-        this.playerName = playerName;
-        this.ipAddress = ipAddress;
-    }
-
     public ParticipantModel(int number, RowChildDataModel childModel) {
         this.number = number;
         playerName = childModel.getPlayerName();

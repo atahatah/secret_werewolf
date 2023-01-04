@@ -2,8 +2,8 @@ package jp.fujiwara.demo.start;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import jp.fujiwara.demo.global.GlobalStateService;
@@ -29,7 +29,7 @@ public class StartRestController {
      * @return 登録のステータス
      */
     @PostMapping("/parent/set_child")
-    public ResponseStatus setChild(@ModelAttribute RowChildDataModel childModel) {
+    public ResponseStatus setChild(@RequestBody RowChildDataModel childModel) {
         parentDataService.addChild(childModel);
         return new ResponseStatus();
     }
@@ -41,7 +41,7 @@ public class StartRestController {
      * @return 登録のステータス
      */
     @PostMapping("/child/notice_participants_info")
-    public ResponseStatus noticeParticipantsInfo(@ModelAttribute List<ParticipantModel> list) {
+    public ResponseStatus noticeParticipantsInfo(@RequestBody List<ParticipantModel> list) {
         globalStateService.set(list);
         return new ResponseStatus();
     }

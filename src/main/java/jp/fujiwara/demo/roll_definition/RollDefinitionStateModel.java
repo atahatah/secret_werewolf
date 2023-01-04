@@ -1,10 +1,14 @@
 package jp.fujiwara.demo.roll_definition;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * ロールの分配の処理の状態を保持するためのクラス。
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 class RollDefinitionStateModel {
     /**

@@ -6,8 +6,8 @@ import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.utils.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor
 @RestController
@@ -24,7 +24,7 @@ public class RollDefinitionRestController {
      * @return 処理のステータス
      */
     @PostMapping("/roll/comp_num")
-    public ResponseStatus compareTowNumbers(@ModelAttribute RollNumber rollNumber) {
+    public ResponseStatus compareTowNumbers(@RequestBody RollNumber rollNumber) {
         // 自分のランダムな数字と渡されたこれまでの最大値を取得
         int myRandomNumber = service.sampleRollNumber();
         final int othersRandomNumber = rollNumber.getNumber();
@@ -48,7 +48,7 @@ public class RollDefinitionRestController {
      * @return
      */
     @PostMapping("/roll/check_num")
-    public ResponseStatus checkNumber(@ModelAttribute RollNumber rollNumber) {
+    public ResponseStatus checkNumber(@RequestBody RollNumber rollNumber) {
         int maxRandomNumber = rollNumber.getNumber();
         if (service.getIsIncremented()) {
             maxRandomNumber++;
