@@ -11,14 +11,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class NightService {
     private final ParentService parentService;
-    private final NoonService noonService;
 
     public void init() {
         parentService.notifyStateToChildren(GameState.NIGHT);
     }
-
-    public void finish() {
-        noonService.init();
-    }
-
 }

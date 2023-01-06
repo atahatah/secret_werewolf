@@ -31,6 +31,11 @@ public class StartController {
     private final GetIpAddress getIpAddress;
     private final RollDefinitionService rollDefinitionService;
 
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/start/page";
+    }
+
     /**
      * 一番最初の情報を入力するページ
      * 
