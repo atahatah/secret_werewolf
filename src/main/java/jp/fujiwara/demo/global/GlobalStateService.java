@@ -18,6 +18,7 @@ public class GlobalStateService {
 
     public void init() {
         playerStateModel.setHasKilled(false);
+        playerStateModel.setRoll(null);
         settingsModel.setParticipants(new ArrayList<>());
         settingsModel.setGameState(GameState.START);
     }
@@ -85,6 +86,19 @@ public class GlobalStateService {
     }
 
     /**
+     * 次の参加者を取得する。
+     * つまり、IDが1つ次の参加者。
+     * IDが最大の場合は親(ID=0)。
+     */
+    public ParticipantModel getPreviousParticipant() {
+        int number = getMyId() - 1;
+        if (number < 0) {
+            number = getNumberOfParticipants() - 1;
+        }
+        return settingsModel.getParticipants().get(number);
+    }
+
+    /**
      * 自分のロールを取得する。
      * まだ決定してない時はnullを返す
      */
@@ -118,5 +132,21 @@ public class GlobalStateService {
      */
     public GameState getState() {
         return settingsModel.getGameState();
+    }
+
+    /**
+     * 参加者をidから探す
+     * 
+     * @param id numberで保存されている
+     * @return 見つからなければnull
+     */
+    public ParticipantModel findPlayerNameById(int id) {
+        final List<ParticipantModel> participants = settingsModel.getParticipants();
+        for (final ParticipantModel participantModel : participants) {
+            if (participantModel.getNumber() == id) {
+                return participantModel;
+            }
+        }
+        return null;
     }
 }

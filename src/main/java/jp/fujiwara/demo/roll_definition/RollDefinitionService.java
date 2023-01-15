@@ -1,6 +1,7 @@
 package jp.fujiwara.demo.roll_definition;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
 import jp.fujiwara.demo.global.GlobalStateService;
@@ -8,6 +9,7 @@ import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.global.Roll;
 import jp.fujiwara.demo.math.RandomNum;
 import jp.fujiwara.demo.night.NightService;
+import jp.fujiwara.demo.utils.Log;
 import jp.fujiwara.demo.utils.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 
@@ -27,6 +29,7 @@ public class RollDefinitionService {
     private final RandomNum randomNum;
     private final NightService nightService;
     private final RestTemplate restTemplate;
+    private final Log log;
 
     public void init() {
         stateModel.setLoop(1);
@@ -39,7 +42,7 @@ public class RollDefinitionService {
      * @return ロールが決定していればtrue
      */
     public boolean hasRollDefined() {
-        return globalStateService.getRoll() == null;
+        return globalStateService.getRoll() != null;
     }
 
     /**
@@ -50,7 +53,7 @@ public class RollDefinitionService {
      */
     public int sampleRollNumber() {
         if (hasRollDefined()) {
-            return 0;
+            return 1;
         }
         return randomNum.next(MAX_RANDOM_NUM);
     }
@@ -59,10 +62,14 @@ public class RollDefinitionService {
      * 親が1つのロールを決定するサイクルを開始するときに初期化する処理
      */
     public void initRollDefinition() {
+        log.debug("*****RollDefinitionRestController.initRollDefinition*****");
+        log.debug("this loop is " + stateModel.getLoop());
         final int myRandomNumber = sampleRollNumber();
+        log.debug(String.format("my random number is %d", myRandomNumber));
         setMyRandomNumber(myRandomNumber);
         final int sendingRandomNumber = randomNum.next(myRandomNumber);
-        sendRandomNumberToNext(sendingRandomNumber);
+        log.debug(String.format("but send the random number %d", sendingRandomNumber));
+        sendRandomNumberToNext(sendingRandomNumber, "/roll/comp_num");
     }
 
     /**
@@ -77,24 +84,21 @@ public class RollDefinitionService {
 
     /**
      * これまでの参加者のうち最も大きなランダムな数字を、次の参加者に送る。
-     * ただし、親の場合は送る先のURLを変える。
      * 
      * @param theBiggerNumber これまでで最も大きなランダムな数字
+     * @param path
      */
-    public void sendRandomNumberToNext(int theBiggerNumber) {
+    public void sendRandomNumberToNext(int theBiggerNumber, String path) {
         final ParticipantModel next = globalStateService.getNextParticipant();
         final String nextIp = next.getIpAddress();
 
-        if (next.getIsParent()) {
-            // 次の参加者（親）に大きい方の数字を送る
-            final String url = "http://" + nextIp + "/roll/check_num";
-            final RollNumber rollNumber = new RollNumber(theBiggerNumber);
+        // 次の参加者に大きい方の数字を送る
+        final String url = "http://" + nextIp + path;
+        final RollNumber rollNumber = new RollNumber(theBiggerNumber);
+        try {
             restTemplate.postForObject(url, rollNumber, ResponseStatus.class);
-        } else {
-            // 次の参加者（子）に大きい方の数字を送る
-            final String url = "http://" + nextIp + "/roll/comp_num";
-            final RollNumber rollNumber = new RollNumber(theBiggerNumber);
-            restTemplate.postForObject(url, rollNumber, ResponseStatus.class);
+        } catch (HttpStatusCodeException e) {
+            log.error(e.getMessage());
         }
     }
 
@@ -132,7 +136,7 @@ public class RollDefinitionService {
      */
     public void setRollNow() {
         globalStateService.set(definingRoll());
-        System.out.println("役職：" + globalStateService.getRoll().name());
+        log.info("the defined my own job is:" + globalStateService.getRoll().name());
     }
 
     /**
