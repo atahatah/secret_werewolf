@@ -94,7 +94,7 @@ public class StartController {
      *
      * @return 親の開始後の画面を返す
      */
-    @GetMapping("/start/start")
+    @PostMapping("/start/start")
     public String start() {
         startService.startGame();
         rollDefinitionService.initRollDefinition();

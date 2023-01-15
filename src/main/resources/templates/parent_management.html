@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>demo start</title>
     <script th:src="@{/js/reload.js}"></script>
 </head>
+
 <body>
     <h2>親のゲーム開始後の管理画面</h2>
+
+    <div th:if="${hasRoll}">
+        <p>あなたの役職は[[${roll}]]ですよ</p>
+        <p>頑張ってくださいね</p>
+    </div>
 </body>
+
 </html>

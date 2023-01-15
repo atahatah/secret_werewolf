@@ -1,10 +1,12 @@
 package jp.fujiwara.demo.management_screen;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import jp.fujiwara.demo.evening.EveningService;
 import jp.fujiwara.demo.global.GlobalStateService;
+import jp.fujiwara.demo.global.Roll;
 import jp.fujiwara.demo.global.child.ChildDataService;
 import jp.fujiwara.demo.global.parent.ParentDataService;
 import jp.fujiwara.demo.night.NightService;
@@ -28,8 +30,19 @@ public class ManagementController {
     private final RollDefinitionService rollDefinitionService;
 
     @GetMapping("/management")
-    public String childManagement() {
+    public String childManagement(Model model) {
+
+        final Roll roll = globalStateService.getRoll();
+        if (roll != null) {
+            model.addAttribute("hasRoll", true);
+            model.addAttribute("roll", roll.name);
+        } else {
+            model.addAttribute("hasRoll", false);
+        }
+
         switch (globalStateService.getState()) {
+            case START:
+                return "redirect:/";
             case NIGHT:
                 switch (globalStateService.getRoll()) {
                     case WEREWOLF:
