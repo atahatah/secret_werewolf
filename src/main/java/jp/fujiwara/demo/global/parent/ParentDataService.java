@@ -1,5 +1,6 @@
 package jp.fujiwara.demo.global.parent;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -22,7 +23,12 @@ public class ParentDataService {
 
     private final GetIpAddress getIpAddress;
 
+    public void init() {
+        model.setParticipants(new ArrayList<>());
+    }
+
     public void init(final StartModel startModel) {
+        init();
         // 最初の参加者として親自身を追加する。
         final String ip = getIpAddress.getIpAddressWithPort();
         final String playerName = startModel.getPlayerName();

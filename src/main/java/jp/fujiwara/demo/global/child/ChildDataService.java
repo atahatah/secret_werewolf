@@ -8,6 +8,9 @@ import jp.fujiwara.demo.start.StartModel;
 public class ChildDataService {
     final ChildDataModel model = new ChildDataModel();
 
+    public void init() {
+    }
+
     public void init(StartModel startModel) {
         model.setParentIpAddress(startModel.getParentIpAddress());
     }

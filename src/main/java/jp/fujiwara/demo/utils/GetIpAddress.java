@@ -6,6 +6,7 @@ import java.net.UnknownHostException;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 /**
  * IP Addressを取得する。
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Component
 public class GetIpAddress {
+    @Setter
     private String ipAddress;
 
     public final String unknownHostName = "Unknown Host";
@@ -23,7 +25,7 @@ public class GetIpAddress {
      * port番号を含まないIP Addressを取得
      */
     public String getIpAddress() {
-        if (ipAddress != null && ipAddress.equals(unknownHostName)) {
+        if (ipAddress != null && !ipAddress.equals(unknownHostName)) {
             return ipAddress;
         }
         try {

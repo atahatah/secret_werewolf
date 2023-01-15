@@ -1,5 +1,6 @@
 package jp.fujiwara.demo.global;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -15,13 +16,19 @@ public class GlobalStateService {
     final PlayerStateModel playerStateModel = new PlayerStateModel();
     final SettingsModel settingsModel = new SettingsModel();
 
+    public void init() {
+        playerStateModel.setHasKilled(false);
+        settingsModel.setParticipants(new ArrayList<>());
+        settingsModel.setGameState(GameState.START);
+    }
+
     /**
      * 最初の設定画面入力後の初期化
      * 
      * @param startModel 設定の入力内容
      */
     public void init(StartModel startModel) {
-        playerStateModel.setHasKilled(false);
+        init();
         playerStateModel.setPlayerName(startModel.getPlayerName());
         settingsModel.setIsParent(startModel.getIsParent());
     }

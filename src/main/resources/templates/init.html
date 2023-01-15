@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>demo start</title>
 </head>
+
 <body>
     <h2>Start Settings</h2>
     <p>IP Address: [[${ip}]]</p>
@@ -14,20 +16,31 @@
             <input type="checkbox" th:field="*{isParent}">
             親か
         </label>
-        
-        <br/>
+
+        <br />
 
         <label for="name">player name:</label>
         <input type="text" th:field="*{playerName}">
-        
-        <br/>
+
+        <br />
 
         <label for="age">親のIPアドレス:</label>
         <input type="text" th:field="*{parentIpAddress}">
-        
-        <br/>
+
+        <br />
+
+        <label for="myIpAddress">自分のIPアドレス:</label>
+        <input type="text" th:field="*{myIpAddress}" th:value="${ip}">
+
+        <br />
+
+        <label for="myPortNum">自分のポート番号:</label>
+        <input type="text" th:field="*{myPortNum}" th:value="${port}">
+
+        <br />
 
         <button>送信</button>
     </form>
 </body>
+
 </html>

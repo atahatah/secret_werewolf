@@ -63,6 +63,9 @@ public class StartController {
     @PostMapping("/start/config")
     public String config(@ModelAttribute StartModel startModel) {
         globalStateService.init(startModel);
+        getIpAddress.setIpAddress(startModel.getMyIpAddress());
+        getPortNum.setPortNum(startModel.getMyPortNum());
+
         if (startModel.getIsParent()) {
             parentDataService.init(startModel);
             return "redirect:/start/waiting";

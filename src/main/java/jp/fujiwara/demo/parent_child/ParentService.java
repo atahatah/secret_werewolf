@@ -20,6 +20,9 @@ public class ParentService {
     private final GlobalStateService globalStateService;
     private final RestTemplate restTemplate;
 
+    public void init() {
+    }
+
     /**
      * 全ての子に現在のゲームの状態を通知する。
      * 自分のゲームの状態も変更する。

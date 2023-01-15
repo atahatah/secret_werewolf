@@ -2,8 +2,6 @@ package jp.fujiwara.demo.noon;
 
 import org.springframework.stereotype.Service;
 
-import jp.fujiwara.demo.global.GameState;
-import jp.fujiwara.demo.parent_child.ParentService;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -14,9 +12,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class NoonService {
-    private final ParentService parentService;
-
     public void init() {
-        parentService.notifyStateToChildren(GameState.NIGHT);
     }
 }

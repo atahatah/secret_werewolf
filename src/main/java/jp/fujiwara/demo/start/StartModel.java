@@ -17,4 +17,9 @@ public class StartModel {
      * port番号まで含める
      */
     private String parentIpAddress;
+    /**
+     * port番号まで含めない
+     */
+    private String myIpAddress;
+    private String myPortNum;
 }

@@ -28,6 +28,11 @@ public class RollDefinitionService {
     private final NightService nightService;
     private final RestTemplate restTemplate;
 
+    public void init() {
+        stateModel.setLoop(1);
+        stateModel.setIsIncremented(false);
+    }
+
     /**
      * 既にロールが決定しているか
      * 

@@ -23,6 +23,9 @@ public class StartService {
     private final GlobalStateService globalStateService;
     private final RestTemplate restTemplate;
 
+    public void init() {
+    }
+
     /**
      * 一番最初に親に子の情報を伝え、ユーザー登録する
      * 
