@@ -7,6 +7,7 @@ import jp.fujiwara.demo.global.GameState;
 import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.global.parent.ParentDataService;
+import jp.fujiwara.demo.utils.Log;
 import jp.fujiwara.demo.utils.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +20,7 @@ public class ParentService {
     private final ParentDataService parentDataService;
     private final GlobalStateService globalStateService;
     private final RestTemplate restTemplate;
+    private final Log log;
 
     public void init() {
     }
@@ -32,7 +34,8 @@ public class ParentService {
     public void notifyStateToChildren(GameState state) {
         globalStateService.set(state);
         for (final ParticipantModel child : parentDataService.children()) {
-            final String url = "http://" + child.getIpAddress() + "/child/notice_participants_info";
+            final String url = "http://" + child.getIpAddress() + "/child/set_state";
+            log.debug("send next state to " + url);
             restTemplate.postForObject(url, state, ResponseStatus.class);
         }
     }

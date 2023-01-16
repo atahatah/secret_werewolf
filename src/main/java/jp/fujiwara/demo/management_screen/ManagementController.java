@@ -41,8 +41,6 @@ public class ManagementController {
         }
 
         switch (globalStateService.getState()) {
-            case START:
-                return "redirect:/";
             case NIGHT:
                 switch (globalStateService.getRoll()) {
                     case WEREWOLF:

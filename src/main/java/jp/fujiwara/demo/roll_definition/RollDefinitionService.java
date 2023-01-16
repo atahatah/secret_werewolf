@@ -4,11 +4,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
+import jp.fujiwara.demo.global.GameState;
 import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.global.Roll;
 import jp.fujiwara.demo.math.RandomNum;
 import jp.fujiwara.demo.night.NightService;
+import jp.fujiwara.demo.parent_child.ParentService;
 import jp.fujiwara.demo.utils.Log;
 import jp.fujiwara.demo.utils.ResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ public class RollDefinitionService {
     private final NightService nightService;
     private final RestTemplate restTemplate;
     private final Log log;
+    private final ParentService parentService;
 
     public void init() {
         stateModel.setLoop(1);
@@ -174,6 +177,7 @@ public class RollDefinitionService {
      */
     public void rollsHadDefined() {
         nightService.init();
+        parentService.notifyStateToChildren(GameState.NIGHT);
     }
 
 }

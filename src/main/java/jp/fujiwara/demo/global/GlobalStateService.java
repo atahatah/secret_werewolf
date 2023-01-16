@@ -6,13 +6,18 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import jp.fujiwara.demo.start.StartModel;
+import jp.fujiwara.demo.utils.Log;
+import lombok.RequiredArgsConstructor;
 
 /**
  * アプリ全体の情報を一括管理する。
  * 特に、PlayerStateModel.javaとSettingsModel.java。
  */
+@RequiredArgsConstructor
 @Service
 public class GlobalStateService {
+    private final Log log;
+
     final PlayerStateModel playerStateModel = new PlayerStateModel();
     final SettingsModel settingsModel = new SettingsModel();
 
@@ -117,6 +122,7 @@ public class GlobalStateService {
      * @param state 新たなゲームの進行状態
      */
     public void set(GameState state) {
+        log.info(String.format("the next game state is %s", state.name()));
         settingsModel.setGameState(state);
     }
 
