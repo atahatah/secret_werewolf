@@ -79,6 +79,12 @@ java ソースコードが入っているところ
 - parent_child 全体的に使いまわせるような通信
 - utils その他の便利なクラス
 
+## 実行
+
+```zsh
+docker run --publish 8081:8080 --name werewolf01 demo:0.0.1-SNAPSHOT
+```
+
 ##　要実装
 
 ### 役職決め

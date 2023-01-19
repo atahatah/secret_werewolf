@@ -43,7 +43,6 @@ public class RollDefinitionRestController {
             // 自分のランダムな数字と渡されたランダムな数字が同じ場合は自分の方を1増やす
             log.debug("two numbers equal, so increment my random number.");
             myRandomNumber++;
-            service.setIncremented();
         }
         service.setMyRandomNumber(myRandomNumber);
 
@@ -76,25 +75,20 @@ public class RollDefinitionRestController {
                 previous.getPlayerName(),
                 previous.getNumber()));
 
-        if (service.getIsIncremented()) {
-            log.debug("incremented my number, so increment number also");
-            maxRandomNumber++;
-        }
-
         if (globalStateService.getIsParent()) {
             if (service.getMyRandomNumber() > maxRandomNumber) {
                 service.setRollNow();
                 maxRandomNumber = service.getMyRandomNumber();
             }
-            if (service.isFinalLoop()) {
-                log.debug("the end of the roll definition");
-                service.rollsHadDefined();
-                return new ResponseStatus();
-            }
         } else {
             if (service.getMyRandomNumber() == maxRandomNumber) {
                 service.setRollNow();
             }
+        }
+
+        // 最後の週まで役職が振られなかった人に役職を割り当てる
+        if (service.isFinalLoop() && !service.hasRollDefined()) {
+            service.setRollLast();
         }
 
         // データを送るより先にしておかないとループ番号をインクリメントする前に次のデータが来てしまう
@@ -113,6 +107,12 @@ public class RollDefinitionRestController {
     @PostMapping("/roll/next")
     public ResponseStatus nextLoop(@RequestBody RollNumber rollNumber) {
         log.debug("*****RollDefinitionRestController.nextLoop*****");
+        if (service.isLoopEnd()) {
+            log.debug("the end of the roll definition");
+            service.rollsHadDefined();
+            return new ResponseStatus();
+        }
+
         service.initRollDefinition();
         return new ResponseStatus();
     }

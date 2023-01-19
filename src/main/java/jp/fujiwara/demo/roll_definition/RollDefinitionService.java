@@ -36,7 +36,6 @@ public class RollDefinitionService {
 
     public void init() {
         stateModel.setLoop(1);
-        stateModel.setIsIncremented(false);
     }
 
     /**
@@ -56,9 +55,9 @@ public class RollDefinitionService {
      */
     public int sampleRollNumber() {
         if (hasRollDefined()) {
-            return 1;
+            return 0;
         }
-        return randomNum.next(MAX_RANDOM_NUM);
+        return randomNum.between(1, MAX_RANDOM_NUM);
     }
 
     /**
@@ -70,7 +69,7 @@ public class RollDefinitionService {
         final int myRandomNumber = sampleRollNumber();
         log.debug(String.format("my random number is %d", myRandomNumber));
         setMyRandomNumber(myRandomNumber);
-        final int sendingRandomNumber = randomNum.next(myRandomNumber);
+        final int sendingRandomNumber = myRandomNumber == 0 ? 0 : randomNum.between(1, myRandomNumber);
         log.debug(String.format("but send the random number %d", sendingRandomNumber));
         sendRandomNumberToNext(sendingRandomNumber, "/roll/comp_num");
     }
@@ -116,8 +115,8 @@ public class RollDefinitionService {
      * 
      * @return 現在決めているロール
      */
-    public Roll definingRoll() {
-        switch (stateModel.getLoop()) {
+    public Roll definingRoll(int loop) {
+        switch (loop) {
             case 1:
                 return Roll.WEREWOLF;
             case 2:
@@ -138,36 +137,36 @@ public class RollDefinitionService {
      * 今回のループで自分のロールを決定
      */
     public void setRollNow() {
-        globalStateService.set(definingRoll());
+        globalStateService.set(definingRoll(stateModel.getLoop()));
         log.info("the defined my own job is:" + globalStateService.getRoll().name());
     }
 
     /**
-     * @return この役職を決めるループで自分がインクリメントしたか
+     * 最後のループまで役職が振られなかった人に役職を振る。
      */
-    public boolean getIsIncremented() {
-        return stateModel.getIsIncremented();
-    }
-
-    /**
-     * この役職を決めるループで自分がインクリメントしたことを記録
-     */
-    public void setIncremented() {
-        stateModel.setIsIncremented(true);
+    public void setRollLast() {
+        globalStateService.set(definingRoll(globalStateService.getNumberOfParticipants()));
+        log.info("the defined my own job is:" + globalStateService.getRoll().name());
     }
 
     /**
      * 次の役職を決めるループのために初期化
      */
     public void prepareNextLoop() {
-        stateModel.setIsIncremented(false);
         stateModel.setLoop(stateModel.getLoop() + 1);
     }
 
     /**
-     * @return この役職を決めるループが最後であればtrue
+     * @return この役職を決める最後のループであればtrue
      */
     public boolean isFinalLoop() {
+        return stateModel.getLoop() >= globalStateService.getNumberOfParticipants() - 1;
+    }
+
+    /**
+     * @return この役職を決めるループがもう終わっていればtrue
+     */
+    public boolean isLoopEnd() {
         return stateModel.getLoop() >= globalStateService.getNumberOfParticipants();
     }
 

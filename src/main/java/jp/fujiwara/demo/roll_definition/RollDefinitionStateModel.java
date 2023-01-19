@@ -21,11 +21,4 @@ class RollDefinitionStateModel {
      * ロールを決めるループにおいて何巡目か。
      */
     private Integer loop = 1;
-
-    /**
-     * ロールを決める数字を比較するときに数字を１大きくしたか。
-     * １周目で自分の数字が回ってきた数字と同じであれば１大きくして次の人に渡すが、
-     * 2周目でも同様に1大きくする必要があるため。
-     */
-    private Boolean isIncremented = false;
 }
