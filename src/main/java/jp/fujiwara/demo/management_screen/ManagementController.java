@@ -42,6 +42,9 @@ public class ManagementController {
 
         switch (globalStateService.getState()) {
             case NIGHT:
+                if (nightService.isActionDecided()) {
+                    return "night/waiting";
+                }
                 switch (globalStateService.getRoll()) {
                     case WEREWOLF:
                         model.addAttribute("participants", globalStateService.getParticipants());

@@ -17,20 +17,21 @@ public class NightController {
     private final NoonService noonService;
     private final ParentService parentService;
     private final Log log;
+    private final NightService nightService;
 
     @PostMapping("/night/werewolf")
     public String werewolf(@ModelAttribute NightModel nightModel) {
         log.debug("****NightController.werewolf*****");
-        // TODO
         log.debug("werewolf:" + nightModel.selectedNumber);
+        nightService.werewolf(nightModel.selectedNumber);
         return "redirect:/management";
     }
 
     @PostMapping("/night/knight")
     public String knight(@ModelAttribute NightModel nightModel) {
         log.debug("****NightController.werewolf*****");
-        // TODO
         log.debug("knight:" + nightModel.selectedNumber);
+        nightService.knight(nightModel.selectedNumber);
         return "redirect:/management";
     }
 
