@@ -64,6 +64,8 @@ public class ManagementController {
                     return "noon/child_management";
                 }
             case EVENING:
+                model.addAttribute("participants", globalStateService.getParticipants());
+                model.addAttribute("selectedNumber", 0);
                 return "evening/vote";
             default:
                 if (globalStateService.getIsParent()) {
