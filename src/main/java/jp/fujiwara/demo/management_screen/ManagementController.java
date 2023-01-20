@@ -44,8 +44,12 @@ public class ManagementController {
             case NIGHT:
                 switch (globalStateService.getRoll()) {
                     case WEREWOLF:
+                        model.addAttribute("participants", globalStateService.getParticipants());
+                        model.addAttribute("selectedNumber", 0);
                         return "night/werewolf";
                     case KNIGHT:
+                        model.addAttribute("participants", globalStateService.getParticipants());
+                        model.addAttribute("selectedNumber", 0);
                         return "night/knight";
                     default:
                         return "night/villager";

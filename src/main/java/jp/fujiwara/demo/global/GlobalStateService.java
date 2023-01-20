@@ -1,10 +1,12 @@
 package jp.fujiwara.demo.global;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import jp.fujiwara.demo.math.ShamirsShare;
 import jp.fujiwara.demo.start.StartModel;
 import jp.fujiwara.demo.utils.Log;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +22,14 @@ public class GlobalStateService {
 
     final PlayerStateModel playerStateModel = new PlayerStateModel();
     final SettingsModel settingsModel = new SettingsModel();
+    final RollShareModel rollShareModel = new RollShareModel();
 
     public void init() {
         playerStateModel.setHasKilled(false);
         playerStateModel.setRoll(null);
         settingsModel.setParticipants(new ArrayList<>());
         settingsModel.setGameState(GameState.START);
+        rollShareModel.setShares(new HashMap<>());
     }
 
     /**
@@ -134,6 +138,14 @@ public class GlobalStateService {
     }
 
     /**
+     * @param id    親から振られたプレイヤーの番号
+     * @param share 渡されたシェア
+     */
+    public void set(int id, List<ShamirsShare> share) {
+        rollShareModel.getShares().put(id, share);
+    }
+
+    /**
      * @return ゲームの状態を取得
      */
     public GameState getState() {
@@ -154,5 +166,9 @@ public class GlobalStateService {
             }
         }
         return null;
+    }
+
+    public List<ParticipantModel> getParticipants() {
+        return settingsModel.getParticipants();
     }
 }

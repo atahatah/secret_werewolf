@@ -6,5 +6,17 @@
 </head>
 <body>
     <h2>夜:騎士</h2>
+    <form th:action="@{/night/knight}" method="post">
+        <select id="selectedNumber" name="selectedNumber">
+            <option
+                th:each="participant : ${participants}"
+                th:value="${participant.number}"
+                th:selected="${participant.number == selectedNumber}"
+            >
+                [[${participant.playerName}]]
+            </option>
+        </select>
+        <button>決定</button>
+    </form>
 </body>
 </html>

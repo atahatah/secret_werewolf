@@ -6,12 +6,17 @@
 </head>
 <body>
     <h2>夜:人狼</h2>
-    <form th:action="@{/night/werewolf}">
+    <form th:action="@{/night/werewolf}" method="post">
         <select id="selectedNumber" name="selectedNumber">
-            <option th:each="participant : ${participants}" th:value="${participant.number}" th:selected="${participant.number == number}" th:inline="text">
-                [[${participant.playerName]]
+            <option
+                th:each="participant : ${participants}"
+                th:value="${participant.number}"
+                th:selected="${participant.number == selectedNumber}"
+            >
+                [[${participant.playerName}]]
             </option>
         </select>
+        <button>決定</button>
     </form>
 </body>
 </html>

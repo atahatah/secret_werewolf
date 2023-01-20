@@ -3,12 +3,15 @@ package jp.fujiwara.demo.global;
 import java.util.Arrays;
 import java.util.List;
 
+import lombok.Data;
+
+@Data
 public class RollCode {
     RollCode(Integer... codes) {
         this.codes = Arrays.asList(codes);
     }
 
-    final List<Integer> codes;
+    private final List<Integer> codes;
 
     @Override
     public boolean equals(Object obj) {

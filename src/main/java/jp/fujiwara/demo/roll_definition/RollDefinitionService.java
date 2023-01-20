@@ -4,13 +4,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import jp.fujiwara.demo.global.GameState;
 import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.global.Roll;
 import jp.fujiwara.demo.math.RandomNum;
-import jp.fujiwara.demo.night.NightService;
-import jp.fujiwara.demo.parent_child.ParentService;
 import jp.fujiwara.demo.utils.Log;
 import jp.fujiwara.demo.utils.ResponseStatus;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +26,9 @@ public class RollDefinitionService {
 
     private final GlobalStateService globalStateService;
     private final RandomNum randomNum;
-    private final NightService nightService;
     private final RestTemplate restTemplate;
     private final Log log;
-    private final ParentService parentService;
+    private final ShareRollService shareRollService;
 
     public void init() {
         stateModel.setLoop(1);
@@ -170,13 +166,8 @@ public class RollDefinitionService {
         return stateModel.getLoop() >= globalStateService.getNumberOfParticipants();
     }
 
-    /**
-     * 役職を決める処理の最後。
-     * 親が実行する。
-     */
     public void rollsHadDefined() {
-        nightService.init();
-        parentService.notifyStateToChildren(GameState.NIGHT);
+        shareRollService.init();
     }
 
 }
