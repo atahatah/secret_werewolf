@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class RollCode {
-    RollCode(Integer... codes) {
+    public RollCode(Integer... codes) {
         this.codes = Arrays.asList(codes);
     }
 

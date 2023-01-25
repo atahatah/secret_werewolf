@@ -1,7 +1,8 @@
-package jp.fujiwara.demo.evening;
+package jp.fujiwara.demo.evening.model;
 
 import java.util.List;
 
+import jp.fujiwara.demo.math.ShamirsShare;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ShareVoteModel {
-    int[] share;
+public class ExecutedPlayersJobModel {
+    private List<ShamirsShare> share;
 }

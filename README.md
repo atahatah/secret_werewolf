@@ -82,7 +82,7 @@ java ソースコードが入っているところ
 ## 実行
 
 ```zsh
-docker run --publish 8081:8080 --name werewolf01 demo:0.0.1-SNAPSHOT
+docker run --publish 8081:8080 --name werewolf01 demo:0.0.2-SNAPSHOT
 ```
 
 ##　要実装

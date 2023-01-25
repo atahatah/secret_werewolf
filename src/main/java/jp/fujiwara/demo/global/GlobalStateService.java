@@ -139,7 +139,7 @@ public class GlobalStateService {
 
     /**
      * @param id    親から振られたプレイヤーの番号
-     * @param share 渡されたシェア
+     * @param share 渡された職業に関するシェア
      */
     public void set(int id, List<ShamirsShare> share) {
         rollShareModel.getShares().put(id, share);
@@ -150,6 +150,14 @@ public class GlobalStateService {
      */
     public GameState getState() {
         return settingsModel.getGameState();
+    }
+
+    /**
+     * @param id 親から振られたプレイヤーの番号
+     * @return 職業情報のシェア
+     */
+    public List<ShamirsShare> getRollShareFor(int id) {
+        return rollShareModel.getShares().get(id);
     }
 
     /**
@@ -170,5 +178,17 @@ public class GlobalStateService {
 
     public List<ParticipantModel> getParticipants() {
         return settingsModel.getParticipants();
+    }
+
+    /**
+     * プレイヤーが殺された場合にそのように記録
+     * 
+     * @param id 殺されたプレイヤーのid
+     */
+    public void killed(int id) {
+        settingsModel.getParticipants().get(id).setKilled(true);
+        if (id == getMyId()) {
+            playerStateModel.setHasKilled(true);
+        }
     }
 }

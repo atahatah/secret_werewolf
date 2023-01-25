@@ -14,4 +14,8 @@ public class ChildDataService {
     public void init(StartModel startModel) {
         model.setParentIpAddress(startModel.getParentIpAddress());
     }
+
+    public String getParentIpAddress() {
+        return model.getParentIpAddress();
+    }
 }

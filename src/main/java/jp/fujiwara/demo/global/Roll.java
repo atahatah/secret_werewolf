@@ -35,7 +35,7 @@ public enum Roll {
         this.name = name;
     }
 
-    public Roll from(RollCode rollCode) {
+    public static Roll from(RollCode rollCode) {
         for (final Roll roll : Roll.values()) {
             if (roll.rollCode.equals(rollCode)) {
                 return roll;

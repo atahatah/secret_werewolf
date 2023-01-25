@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>demo start</title>
+    <script th:src="@{/js/reload.js}"></script>
+</head>
+<body>
+    <h2>夕方:投票結果</h2>
+    <p>投票の結果、次の方は処刑されました。</p>
+    <p>[[${executed}]]</p>
+    <div th:if="${isParent}">
+        <form th:action="@{/evening/finish}" method="get">
+            <button>夜の行動へ</button>
+        </form>
+    </div>
+</body>
+</html>

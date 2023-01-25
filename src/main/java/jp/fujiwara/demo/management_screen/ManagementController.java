@@ -40,6 +40,10 @@ public class ManagementController {
             model.addAttribute("hasRoll", false);
         }
 
+        if (globalStateService.getIsParent()) {
+            model.addAttribute("isParent", true);
+        }
+
         switch (globalStateService.getState()) {
             case NIGHT:
                 if (nightService.isActionDecided()) {
@@ -64,6 +68,13 @@ public class ManagementController {
                     return "noon/child_management";
                 }
             case EVENING:
+                if (eveningService.isResulted()) {
+                    model.addAttribute("executed", eveningService.getRecentExecutedId());
+                    return "evening/result";
+                }
+                if (eveningService.isVoted()) {
+                    return "evening/voted";
+                }
                 model.addAttribute("participants", globalStateService.getParticipants());
                 model.addAttribute("selectedNumber", 0);
                 return "evening/vote";

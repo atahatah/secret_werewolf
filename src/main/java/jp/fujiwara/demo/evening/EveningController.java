@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jp.fujiwara.demo.evening.model.VoteModel;
 import jp.fujiwara.demo.global.GameState;
 import jp.fujiwara.demo.night.NightService;
 import jp.fujiwara.demo.parent_child.ParentService;
@@ -22,7 +23,7 @@ public class EveningController {
     @PostMapping("/evening/vote")
     public String vote(@ModelAttribute VoteModel voteModel) {
         log.debug("*****EveningController.vote*****");
-        eveningService.vote(voteModel.getSelectedNumber());
+        eveningService.shareVote(voteModel.getSelectedNumber());
         return "redirect:/management";
     }
 
@@ -30,6 +31,6 @@ public class EveningController {
     public String finish() {
         nightService.init();
         parentService.notifyStateToChildren(GameState.NIGHT);
-        return "redirect:management";
+        return "redirect:/management";
     }
 }

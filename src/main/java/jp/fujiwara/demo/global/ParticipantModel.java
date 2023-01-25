@@ -28,6 +28,10 @@ public class ParticipantModel {
      * port番号まで含める
      */
     private String ipAddress;
+    /**
+     * 殺されたか
+     */
+    private boolean killed = false;
 
     public boolean getIsParent() {
         return number == 0;
