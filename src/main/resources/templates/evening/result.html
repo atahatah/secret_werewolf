@@ -9,7 +9,9 @@
 <body>
     <h2>夕方:投票結果</h2>
     <p>投票の結果、次の方は処刑されました。</p>
-    <p>[[${executed}]]</p>
+    <p>id:[[${executed}]]</p>
+    <p>名前:[[${executedName}]]</p>
+    <p>役職:[[${executedRoll}]]</p>
     <div th:if="${isParent}">
         <form th:action="@{/evening/finish}" method="get">
             <button>夜の行動へ</button>

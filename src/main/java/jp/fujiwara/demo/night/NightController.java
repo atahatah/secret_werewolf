@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import jp.fujiwara.demo.global.GameState;
+import jp.fujiwara.demo.night.model.NightModel;
 import jp.fujiwara.demo.noon.NoonService;
 import jp.fujiwara.demo.parent_child.ParentService;
 import jp.fujiwara.demo.utils.Log;
@@ -22,16 +23,23 @@ public class NightController {
     @PostMapping("/night/werewolf")
     public String werewolf(@ModelAttribute NightModel nightModel) {
         log.debug("****NightController.werewolf*****");
-        log.debug("werewolf:" + nightModel.selectedNumber);
-        nightService.werewolf(nightModel.selectedNumber);
+        log.debug("werewolf:" + nightModel.getSelectedNumber());
+        nightService.werewolfAction(nightModel.getSelectedNumber());
         return "redirect:/management";
     }
 
     @PostMapping("/night/knight")
     public String knight(@ModelAttribute NightModel nightModel) {
         log.debug("****NightController.werewolf*****");
-        log.debug("knight:" + nightModel.selectedNumber);
-        nightService.knight(nightModel.selectedNumber);
+        log.debug("knight:" + nightModel.getSelectedNumber());
+        nightService.knightAction(nightModel.getSelectedNumber());
+        return "redirect:/management";
+    }
+
+    @PostMapping("/night/others")
+    public String others() {
+        log.debug("*****NightController.others*****");
+        nightService.othersAction();
         return "redirect:/management";
     }
 

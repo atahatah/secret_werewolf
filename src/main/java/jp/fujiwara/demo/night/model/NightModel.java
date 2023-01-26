@@ -1,4 +1,4 @@
-package jp.fujiwara.demo.night;
+package jp.fujiwara.demo.night.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class NightModel {
-    Integer selectedNumber;
+    private Integer selectedNumber;
 }

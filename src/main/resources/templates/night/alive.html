@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>demo start</title>
+    <script th:src="@{/js/reload.js}"></script>
+</head>
+<body>
+    <h2>夜:行動結果</h2>
+    <p>各自の結果、誰も殺されませんでした。</p>
+    <div th:if="${isParent}">
+        <form th:action="@{/night/finish}" method="get">
+            <button>昼の議論へ</button>
+        </form>
+    </div>
+</body>
+</html>

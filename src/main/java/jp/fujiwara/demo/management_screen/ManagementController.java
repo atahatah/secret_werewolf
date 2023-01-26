@@ -46,6 +46,17 @@ public class ManagementController {
 
         switch (globalStateService.getState()) {
             case NIGHT:
+                if (nightService.isResulted()) {
+                    if (nightService.isSomebodyKilled()) {
+                        model.addAttribute("killedId", nightService.getKilledId());
+                        model.addAttribute("killedName",
+                                globalStateService.getParticipants().get(nightService.getKilledId()).getPlayerName());
+                        model.addAttribute("killedRoll", nightService.getKilledRoll().name);
+                        return "night/killed";
+                    } else {
+                        return "night/alive";
+                    }
+                }
                 if (nightService.isActionDecided()) {
                     return "night/waiting";
                 }
@@ -70,6 +81,9 @@ public class ManagementController {
             case EVENING:
                 if (eveningService.isResulted()) {
                     model.addAttribute("executed", eveningService.getRecentExecutedId());
+                    model.addAttribute("executedName", globalStateService.getParticipants()
+                            .get(eveningService.getRecentExecutedId()).getPlayerName());
+                    model.addAttribute("executedRoll", eveningService.getRecentExecutedRoll().name);
                     return "evening/result";
                 }
                 if (eveningService.isVoted()) {

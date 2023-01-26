@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 
-import jp.fujiwara.demo.evening.EveningService;
 import jp.fujiwara.demo.global.GameState;
 import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.ParticipantModel;
@@ -23,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class ShareRollService {
     private final NightService nightService;
-    private final EveningService eveningService;
     private final ParentService parentService;
     private final GlobalStateService globalStateService;
     private final RestTemplate restTemplate;
@@ -106,9 +104,7 @@ public class ShareRollService {
      * 親が実行する。
      */
     public void finish() {
-        // nightService.init();
-        // parentService.notifyStateToChildren(GameState.NIGHT);
-        eveningService.init();
-        parentService.notifyStateToChildren(GameState.EVENING);
+        nightService.init();
+        parentService.notifyStateToChildren(GameState.NIGHT);
     }
 }
