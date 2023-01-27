@@ -32,7 +32,7 @@ public class ParentDataService {
         // 最初の参加者として親自身を追加する。
         final String ip = getIpAddress.getIpAddressWithPort();
         final String playerName = startModel.getPlayerName();
-        model.participants.add(new ParticipantModel(0, playerName, ip, false));
+        model.participants.add(new ParticipantModel(0, playerName, ip, false, null));
     }
 
     /**

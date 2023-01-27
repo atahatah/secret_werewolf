@@ -83,6 +83,16 @@ public class EveningService {
     }
 
     /**
+     * 状態の最初に実行が必要な処理
+     */
+    public void start() {
+        // 死んでいる人は自動的に存在しない人に投票
+        if (globalStateService.getHasKilled()) {
+            shareVote(globalStateService.getNumberOfParticipants() + 1);
+        }
+    }
+
+    /**
      * 投票された情報を秘密分散する。
      * そのためにシェアを全ての参加者へ送る。
      * 
@@ -266,7 +276,7 @@ public class EveningService {
         this.recentExecutedId = executedId;
         this.recentExecutedRoll = executedRoll;
 
-        globalStateService.killed(executedId);
+        globalStateService.killed(executedId, executedRoll);
         log.info(String.format("player %d has killed.", executedId));
     }
 }

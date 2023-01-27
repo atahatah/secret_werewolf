@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jp.fujiwara.demo.evening.EveningService;
 import jp.fujiwara.demo.global.GameState;
 import jp.fujiwara.demo.global.GlobalStateService;
+import jp.fujiwara.demo.management_screen.ManagementService;
 import jp.fujiwara.demo.night.NightService;
 import jp.fujiwara.demo.noon.NoonService;
 import jp.fujiwara.demo.utils.Log;
@@ -24,6 +25,7 @@ public class ChildRestController {
     private final EveningService eveningService;
     private final NightService nightService;
     private final NoonService noonService;
+    private final ManagementService managementService;
 
     @PostMapping("/child/set_state")
     public ResponseStatus setState(@RequestBody GameState state) {
@@ -34,9 +36,11 @@ public class ChildRestController {
                 break;
             case EVENING:
                 eveningService.init();
+                eveningService.start();
                 break;
             case NIGHT:
                 nightService.init();
+                nightService.start();
                 break;
             case NOON:
                 noonService.init();
@@ -48,7 +52,7 @@ public class ChildRestController {
                 log.error("nothing init for " + state.name());
                 break;
             case START:
-                log.error("nothing init for " + state.name());
+                managementService.initAll();
                 break;
             case WEREWOLF_WON:
                 log.error("nothing init for " + state.name());

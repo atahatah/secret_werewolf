@@ -32,6 +32,10 @@ public class ParticipantModel {
      * 殺されたか
      */
     private boolean killed = false;
+    /**
+     * 殺されて明らかになった役職
+     */
+    private Roll roll;
 
     public boolean getIsParent() {
         return number == 0;

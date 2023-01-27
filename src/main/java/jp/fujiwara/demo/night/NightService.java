@@ -109,6 +109,25 @@ public class NightService {
     }
 
     /**
+     * 状態の最初に必要な処理
+     */
+    public void start() {
+        // 死んでいる人は自動的に何も行動しない
+        if (globalStateService.getHasKilled()) {
+            killedAction();
+        }
+    }
+
+    /**
+     * 死んだ人の何もしない行動
+     */
+    public void killedAction() {
+        actionDecided = true;
+        killSelect = 0;
+        distributeActionInfo(decideKillShareSum);
+    }
+
+    /**
      * @param selectedNumber 人狼が食い殺すと決めた人のid
      */
     public void werewolfAction(Integer selectedNumber) {
@@ -411,5 +430,6 @@ public class NightService {
         this.killedId = killedId;
         this.killedRoll = killedRoll;
         resulted = true;
+        globalStateService.killed(killedId, killedRoll);
     }
 }

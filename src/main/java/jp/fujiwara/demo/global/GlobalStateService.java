@@ -183,12 +183,21 @@ public class GlobalStateService {
     /**
      * プレイヤーが殺された場合にそのように記録
      * 
-     * @param id 殺されたプレイヤーのid
+     * @param id   殺されたプレイヤーのid
+     * @param roll 殺されたプレイヤーの役職
      */
-    public void killed(int id) {
+    public void killed(int id, Roll roll) {
         settingsModel.getParticipants().get(id).setKilled(true);
+        settingsModel.getParticipants().get(id).setRoll(roll);
         if (id == getMyId()) {
             playerStateModel.setHasKilled(true);
         }
+    }
+
+    /**
+     * @return 自分が既に殺されているか
+     */
+    public boolean getHasKilled() {
+        return playerStateModel.getHasKilled();
     }
 }
