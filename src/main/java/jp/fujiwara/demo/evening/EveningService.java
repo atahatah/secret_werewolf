@@ -223,14 +223,14 @@ public class EveningService {
         final List<ShamirsShare> share1List = new ArrayList<>();
 
         for (final ParticipantModel player : globalStateService.getParticipants()) {
+            if (player.getNumber() == executed) {
+                continue;
+            }
             if (player.getNumber() == globalStateService.getMyId()) {
                 final List<ShamirsShare> shares = globalStateService.getRollShareFor(executed);
                 log.debug(String.format("player %s's roll share size is %d", player.getPlayerName(), shares.size()));
                 share0List.add(shares.get(0));
                 share1List.add(shares.get(1));
-                continue;
-            }
-            if (player.getNumber() == executed) {
                 continue;
             }
             final List<ShamirsShare> shares = returnedMap.get(player.getNumber()).getShare();
@@ -241,8 +241,8 @@ public class EveningService {
 
         final ShamirsShare[] share0 = share0List.toArray(new ShamirsShare[numOfPlayers - 1]);
         final ShamirsShare[] share1 = share1List.toArray(new ShamirsShare[numOfPlayers - 1]);
-        final int rollCode0 = shamir.reconstruct(share0, numOfShare - 1);
-        final int rollCode1 = shamir.reconstruct(share1, numOfShare - 1);
+        final int rollCode0 = shamir.reconstruct(share0, numOfPlayers - 1);
+        final int rollCode1 = shamir.reconstruct(share1, numOfPlayers - 1);
 
         final Roll executedRoll = Roll.from(new RollCode(rollCode0, rollCode1));
         log.info(String.format("the roll of who executed is %s", executedRoll.name));

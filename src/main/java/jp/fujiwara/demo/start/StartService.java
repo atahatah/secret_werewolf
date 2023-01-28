@@ -9,6 +9,7 @@ import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.global.parent.ParentDataService;
 import jp.fujiwara.demo.utils.GetIpAddress;
+import jp.fujiwara.demo.utils.Log;
 import jp.fujiwara.demo.utils.ResponseStatus;
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,7 @@ public class StartService {
     private final GetIpAddress getIpAddress;
     private final GlobalStateService globalStateService;
     private final RestTemplate restTemplate;
+    private final Log log;
 
     public void init() {
     }
@@ -37,9 +39,10 @@ public class StartService {
                 getIpAddress.getIpAddressWithPort());
 
         System.out.println("start");
-        final ResponseStatus status = restTemplate.postForObject(url, childModel, ResponseStatus.class);
-        if (status != null) {
-            System.out.println(status.getStatus());
+        try {
+            restTemplate.postForObject(url, childModel, ResponseStatus.class);
+        } catch (Exception e) {
+            log.error(e.getMessage());
         }
         System.out.println("end");
     }
