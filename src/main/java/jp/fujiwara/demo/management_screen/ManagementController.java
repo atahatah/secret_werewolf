@@ -1,5 +1,8 @@
 package jp.fujiwara.demo.management_screen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import jp.fujiwara.demo.evening.EveningService;
 import jp.fujiwara.demo.global.GameState;
 import jp.fujiwara.demo.global.GlobalStateService;
+import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.global.Roll;
 import jp.fujiwara.demo.night.NightService;
 import jp.fujiwara.demo.parent_child.ParentService;
@@ -23,6 +27,17 @@ public class ManagementController {
 
     @GetMapping("/management")
     public String childManagement(Model model) {
+        final List<ParticipantModel> livingOtherPlayers = new ArrayList<>();
+        for (final ParticipantModel player : globalStateService.getParticipants()) {
+            if (player.getNumber() == globalStateService.getMyId()) {
+                continue;
+            }
+            if (player.isKilled()) {
+                continue;
+            }
+            livingOtherPlayers.add(player);
+        }
+        model.addAttribute("participants", livingOtherPlayers);
 
         final Roll roll = globalStateService.getRoll();
         if (roll != null) {
@@ -54,11 +69,9 @@ public class ManagementController {
                 }
                 switch (globalStateService.getRoll()) {
                     case WEREWOLF:
-                        model.addAttribute("participants", globalStateService.getParticipants());
                         model.addAttribute("selectedNumber", 0);
                         return "night/werewolf";
                     case KNIGHT:
-                        model.addAttribute("participants", globalStateService.getParticipants());
                         model.addAttribute("selectedNumber", 0);
                         return "night/knight";
                     default:
@@ -81,7 +94,6 @@ public class ManagementController {
                 if (eveningService.isVoted()) {
                     return "evening/voted";
                 }
-                model.addAttribute("participants", globalStateService.getParticipants());
                 model.addAttribute("selectedNumber", 0);
                 return "evening/vote";
             case PEOPLE_WON:
