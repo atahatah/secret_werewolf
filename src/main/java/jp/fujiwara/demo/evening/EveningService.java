@@ -278,5 +278,8 @@ public class EveningService {
 
         globalStateService.killed(executedId, executedRoll);
         log.info(String.format("player %d has killed.", executedId));
+
+        // ゲームが終了したかを確認し、終了していればゲームの状態を変更する。
+        globalStateService.checkIfGameSet();
     }
 }

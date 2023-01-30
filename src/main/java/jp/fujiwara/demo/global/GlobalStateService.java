@@ -127,7 +127,17 @@ public class GlobalStateService {
      */
     public void set(GameState state) {
         log.info(String.format("the next game state is %s", state.name()));
-        settingsModel.setGameState(state);
+        switch (settingsModel.getGameState()) {
+            case DEAD:
+            case PEOPLE_WON:
+            case WEREWOLF_WON:
+                if (state != GameState.START) {
+                    log.info("but the state is not changed.");
+                    break;
+                }
+            default:
+                settingsModel.setGameState(state);
+        }
     }
 
     /**
@@ -199,5 +209,46 @@ public class GlobalStateService {
      */
     public boolean getHasKilled() {
         return playerStateModel.getHasKilled();
+    }
+
+    /**
+     * ゲームが終了したかを確認
+     * 終了していれば状態を変更
+     */
+    public void checkIfGameSet() {
+        // 殺された各陣営の人数を確認
+        int killedWerewolf = 0;
+        int killedPeople = 0;
+        for (final ParticipantModel player : getParticipants()) {
+            if (!player.isKilled()) {
+                continue;
+            }
+            switch (player.getRoll()) {
+                case WEREWOLF:
+                    killedWerewolf++;
+                    break;
+                default:
+                    killedPeople++;
+            }
+        }
+        log.debug("killed werewolf:" + killedWerewolf);
+        log.debug("killed people:" + killedPeople);
+
+        final int numOfPlayers = getNumberOfParticipants();
+        final int werewolfNum = 1;
+        final int livingPeople = numOfPlayers - killedPeople - werewolfNum;
+        final int livingWerewolf = werewolfNum - killedWerewolf;
+        log.info("living people:" + livingPeople);
+        log.info("living werewolf" + livingWerewolf);
+        if (livingWerewolf <= 0) {
+            // 人間陣営の勝ち
+            set(GameState.PEOPLE_WON);
+            return;
+        }
+        if (livingPeople <= livingWerewolf) {
+            // 人狼陣営の勝ち
+            set(GameState.WEREWOLF_WON);
+            return;
+        }
     }
 }

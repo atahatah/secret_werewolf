@@ -54,36 +54,4 @@ public class ParentService {
         }
     }
 
-    public void checkIfGameSet() {
-        // 殺された各陣営の人数を確認
-        int killedWerewolf = 0;
-        int killedPeople = 0;
-        for (final ParticipantModel player : globalStateService.getParticipants()) {
-            if (!player.isKilled()) {
-                continue;
-            }
-            switch (player.getRoll()) {
-                case WEREWOLF:
-                    killedWerewolf++;
-                    break;
-                default:
-                    killedPeople++;
-            }
-        }
-        log.info("killed werewolf:" + killedWerewolf);
-        log.info("killed people:" + killedPeople);
-
-        final int numOfPlayers = globalStateService.getNumberOfParticipants();
-        final int werewolfNum = 1;
-        if (killedWerewolf == werewolfNum) {
-            // 人間陣営の勝ち
-            notifyStateToChildren(GameState.PEOPLE_WON);
-            return;
-        }
-        if ((numOfPlayers - killedPeople - killedWerewolf) <= werewolfNum) {
-            // 人狼陣営の勝ち
-            notifyStateToChildren(GameState.WEREWOLF_WON);
-            return;
-        }
-    }
 }

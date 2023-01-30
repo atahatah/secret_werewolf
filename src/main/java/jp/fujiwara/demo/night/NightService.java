@@ -431,5 +431,8 @@ public class NightService {
         this.killedRoll = killedRoll;
         resulted = true;
         globalStateService.killed(killedId, killedRoll);
+
+        // ゲームが終了したかを確認し、終了していればゲームの状態を変更する。
+        globalStateService.checkIfGameSet();
     }
 }
