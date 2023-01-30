@@ -79,25 +79,20 @@ java ソースコードが入っているところ
 - parent_child 全体的に使いまわせるような通信
 - utils その他の便利なクラス
 
-## 実行
+## デバッグ
+
+１台のみの PC で実行する場合の説明です。
+
+docker イメージをビルドしてください。
+
+```zsh
+gradle bootBuildImage
+```
+
+次に３台分以上を起動して実行してください。
 
 ```zsh
 docker run --publish 8081:8080 --name werewolf01 demo:0.0.2-SNAPSHOT
+docker run --publish 8082:8080 --name werewolf02 demo:0.0.2-SNAPSHOT
+docker run --publish 8083:8080 --name werewolf03 demo:0.0.2-SNAPSHOT
 ```
-
-##　要実装
-
-### 役職決め
-
-- シェアの分配(シャミアの秘密分散)
-
-### 夜：人狼が食い殺す
-
-c 待ち
-
-### 夕方:投票
-
-- 投票をする(秘密分散)
-- 集計する(復元)
-- 投票結果の判定(シャミアの復元)
-- このフェーズの終了
