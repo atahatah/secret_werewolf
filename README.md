@@ -5,6 +5,9 @@
 必要とせずに、処理を分散して実行することで
 各自の役職や投票した内容を明かすことなく人狼ゲームを行うことができます。
 
+これは大学の授業のために作成していますが、
+何かございましたら気軽に issue や pull request を投げてください。
+
 ## 技術
 
 - Java 17(多分最初から入っているはず)
@@ -98,7 +101,13 @@ gradle bootBuildImage
 
 ```zsh
 docker run --publish 8081:8080 --name werewolf01 demo:0.0.2-SNAPSHOT
+```
+
+```zsh
 docker run --publish 8082:8080 --name werewolf02 demo:0.0.2-SNAPSHOT
+```
+
+```zsh
 docker run --publish 8083:8080 --name werewolf03 demo:0.0.2-SNAPSHOT
 ```
 
