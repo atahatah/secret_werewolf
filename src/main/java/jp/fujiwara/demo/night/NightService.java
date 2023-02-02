@@ -43,6 +43,7 @@ public class NightService {
     /**
      * 各個人のシェアの計算のための値（合計する）
      */
+    @Getter
     private int killShareSum = 0;
     /**
      * 各個人が他のプレイヤーから取得したシェアの数
@@ -90,6 +91,15 @@ public class NightService {
      */
     private List<Integer> totalDecideKillShare;
 
+    @Getter
+    private List<String> receiverName;
+
+    @Getter
+    private List<Integer> generatedShares;
+
+    @Getter
+    private List<Integer> killShares;
+
     /**
      * 初期化
      */
@@ -106,6 +116,9 @@ public class NightService {
         decideKillShareSum = 0;
         decidedKillShareNum = 0;
         totalDecideKillShare = new ArrayList<>();
+        receiverName = new ArrayList<>();
+        generatedShares = new ArrayList<>();
+        killShares = new ArrayList<>();
     }
 
     /**
@@ -164,18 +177,24 @@ public class NightService {
 
         // シェアの作成
         final Integer[] share = additiveSecretSharing.prepare(killNum, numOfPlayers);
+        for (Integer value : share) {
+            generatedShares.add(value);
+        }
 
         // シェアの分散
         int i = 0;
         for (final ParticipantModel player : globalStateService.getParticipants()) {
+            receiverName.add(player.getPlayerName());
             if (player.getNumber() == globalStateService.getMyId()) {
                 getActionShare(share[i++]);
                 continue;
             }
 
             final String url = "http://" + player.getIpAddress() + "/night/action_share";
+            // receiverName.add(player.getPlayerName());
             log.debug("send to " + url);
             final ActionShareModel actionShareModel = new ActionShareModel(share[i++]);
+            // generatedShares.add(actionShareModel.getKillShare());
             log.debug("share :" + actionShareModel.getKillShare());
             try {
                 restTemplate.postForObject(url, actionShareModel, ResponseStatus.class);
@@ -192,6 +211,7 @@ public class NightService {
      */
     public void getActionShare(int killShare) {
         numOfShare++;
+        killShares.add(killShare);
         killShareSum += killShare;
 
         final int numOfPlayers = globalStateService.getNumberOfParticipants();

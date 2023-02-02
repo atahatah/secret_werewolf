@@ -12,20 +12,30 @@ import jp.fujiwara.demo.global.GameState;
 import jp.fujiwara.demo.global.GlobalStateService;
 import jp.fujiwara.demo.global.ParticipantModel;
 import jp.fujiwara.demo.global.Roll;
+import jp.fujiwara.demo.global.child.ChildDataService;
+import jp.fujiwara.demo.global.parent.ParentDataService;
 import jp.fujiwara.demo.night.NightService;
+import jp.fujiwara.demo.noon.NoonService;
 import jp.fujiwara.demo.parent_child.ParentService;
+import jp.fujiwara.demo.roll_definition.RollDefinitionService;
+import jp.fujiwara.demo.start.StartService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
 public class ManagementController {
+    private final StartService startService;
     private final ParentService parentService;
+    private final NoonService noonService;
     private final NightService nightService;
     private final EveningService eveningService;
     private final GlobalStateService globalStateService;
     private final ManagementService managementService;
+    private final ParentDataService parentDataService;
+    private final ChildDataService childDataService;
+    private final RollDefinitionService rollDefinitionService;
 
-    @GetMapping("/management")
+    @GetMapping("/management") // webのパス指定
     public String childManagement(Model model) {
         final List<ParticipantModel> livingOtherPlayers = new ArrayList<>();
         for (final ParticipantModel player : globalStateService.getParticipants()) {
@@ -59,8 +69,17 @@ public class ManagementController {
                         model.addAttribute("killedName",
                                 globalStateService.getParticipants().get(nightService.getKilledId()).getPlayerName());
                         model.addAttribute("killedRoll", nightService.getKilledRoll().name);
+                        model.addAttribute("killShares", nightService.getKillShares());
+                        model.addAttribute("killShareSum", nightService.getKillShareSum());
+                        model.addAttribute("receiverName", nightService.getReceiverName());
+                        model.addAttribute("generatedShares", nightService.getGeneratedShares());
+
                         return "night/killed";
                     } else {
+                        model.addAttribute("killShares", nightService.getKillShares());
+                        model.addAttribute("killShareSum", nightService.getKillShareSum());
+                        model.addAttribute("receiverName", nightService.getReceiverName());
+                        model.addAttribute("generatedShares", nightService.getGeneratedShares());
                         return "night/alive";
                     }
                 }
@@ -89,12 +108,20 @@ public class ManagementController {
                     model.addAttribute("executedName", globalStateService.getParticipants()
                             .get(eveningService.getRecentExecutedId()).getPlayerName());
                     model.addAttribute("executedRoll", eveningService.getRecentExecutedRoll().name);
+                    model.addAttribute("receiveShares", eveningService.getReceiveShares());
+                    model.addAttribute("shereSum", eveningService.getShareSum());
+                    model.addAttribute("receiverNames", eveningService.getReceiverNames());
+                    model.addAttribute("generatedShares", eveningService.getGeneratedShares());
                     return "evening/result";
                 }
                 if (eveningService.isVoted()) {
+                    model.addAttribute("receiveShares", eveningService.getReceiveShares());
+                    model.addAttribute("shereSum", eveningService.getShareSum());
+                    // display shares i made and receivers
                     return "evening/voted";
                 }
                 model.addAttribute("selectedNumber", 0);
+
                 return "evening/vote";
             case PEOPLE_WON:
                 return "people_won";

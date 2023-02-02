@@ -39,6 +39,7 @@ public class EveningService {
     /**
      * 各個人のシェアの計算のための値（合計する）
      */
+    @Getter
     private int shareSum = 0;
     /**
      * 各個人が他のプレイヤーから取得したシェアの数
@@ -69,6 +70,15 @@ public class EveningService {
     @Getter
     private Roll recentExecutedRoll = null;
 
+    @Getter
+    private List<String> receiverNames;
+
+    @Getter
+    private List<Integer> receiveShares;
+
+    @Getter
+    private List<Integer> generatedShares;
+
     /**
      * 初期化
      */
@@ -80,6 +90,9 @@ public class EveningService {
         resulted = false;
         recentExecutedId = null;
         recentExecutedRoll = null;
+        receiverNames = new ArrayList<>();
+        receiveShares = new ArrayList<>();
+        generatedShares = new ArrayList<>();
     }
 
     /**
@@ -106,6 +119,9 @@ public class EveningService {
         final int numOfPlayers = globalStateService.getNumberOfParticipants();
         log.info("player voted to " + number);
         final Integer[] share = additiveSecretSharing.createShareForVote(number, numOfPlayers);
+        for (Integer value : share) {
+            generatedShares.add(value);
+        }
         log.debug("the shares are :");
         for (int n : share) {
             log.debug("" + n);
@@ -115,6 +131,7 @@ public class EveningService {
         // シェアの送信
         for (final ParticipantModel player : globalStateService.getParticipants()) {
             log.debug(String.format("send share %d to %s(%d)", share[i], player.getPlayerName(), player.getNumber()));
+            receiverNames.add(player.getPlayerName());
 
             // 自分に対して送るシェア
             if (player.getNumber() == globalStateService.getMyId()) {
@@ -144,6 +161,7 @@ public class EveningService {
     public void gatherShare(int share) {
         log.debug("******EveningService.gatherShare*****");
         numOfShare++;
+        receiveShares.add(share);
         shareSum += share;
         if (numOfShare < globalStateService.getNumberOfParticipants()) {
             return;

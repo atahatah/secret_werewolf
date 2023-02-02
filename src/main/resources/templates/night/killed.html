@@ -11,6 +11,11 @@
     <p>id:[[${killedId}]]</p>
     <p>名前:[[${killedName}]]</p>
     <p>役職:[[${killedRoll}]]</p>
+    <!--人狼が殺した人と騎士が守った人のシェアを表示-->
+    <p>受け取ったシェア:[[${killShares}]]</p>
+    <p>シェアの合計値:[[${killShareSum}]]</p>
+    <p>送信先:[[${receiverName}]]</p>
+    <p>送信したシェア:[[${generatedShares}]]</p>
     <div th:if="${isParent}">
         <form th:action="@{/night/finish}" method="get">
             <button>昼の議論へ</button>
